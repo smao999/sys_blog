@@ -5,12 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { authPlugins } from 'mysql2';
 import { BlogModule } from './blog/blog.module';
+import * as path from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'src/.env'
+      envFilePath: path.join(__dirname, '.env')
     }),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => {
