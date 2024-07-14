@@ -1,5 +1,13 @@
 version: '3.8'
 services:
+  fe-app:
+    image: fe-container:first
+    ports:
+      -80:80
+    depends_on:
+      - nest-app
+    networks:
+      - common-network
   nest-app:
     build:
       context: ./
@@ -13,7 +21,7 @@ services:
   mysql-container:
     image: mysql
     volumes:
-      - /Users/xqs/mysql-data:/var/lib/mysql
+      - D:\code\mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: local_blog
       MYSQL_ROOT_PASSWORD: xqs
