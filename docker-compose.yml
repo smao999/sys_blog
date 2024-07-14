@@ -17,6 +17,8 @@ services:
     environment:
       MYSQL_DATABASE: local_blog
       MYSQL_ROOT_PASSWORD: xqs
+    ports:
+      - 3306:3306
     networks:
       - common-network
 networks:
