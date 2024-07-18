@@ -21,7 +21,7 @@ services:
   mysql-container:
     image: mysql
     volumes:
-      - D:\code\mysql:/var/lib/mysql
+      - /root/database
     environment:
       MYSQL_DATABASE: local_blog
       MYSQL_ROOT_PASSWORD: xqs
