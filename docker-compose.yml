@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   fe-app:
-    image: fe-container:v1
+    image: fe-container-images:v1
     ports:
       - "80:80"
     depends_on:
