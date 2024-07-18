@@ -3,7 +3,7 @@ services:
   fe-app:
     image: fe-container:v1
     ports:
-      -"80:80"
+      - "80:80"
     depends_on:
       - nest-app
     networks:
