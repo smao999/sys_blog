@@ -5,13 +5,29 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { authPlugins } from 'mysql2';
 import { BlogModule } from './blog/blog.module';
+import { UserModule } from './user/user.module';
 import * as path from 'path';
+import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { LoginGuard } from './login.guard';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: path.join(__dirname, '.env')
+    }),
+    JwtModule.registerAsync({
+      global: true,
+      useFactory: (configService: ConfigService) => {
+        return {
+          secret: configService.get('jwt_secret'),
+          signOptions: {
+            expiresIn: configService.get('jwt_access_token_expires_time')
+          }
+        }
+      },
+      inject: [ConfigService]
     }),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => {
@@ -34,9 +50,16 @@ import * as path from 'path';
       },
       inject: [ConfigService]
     }),
-    BlogModule
+    BlogModule,
+    UserModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: LoginGuard
+    }
+  ],
 })
 export class AppModule {}

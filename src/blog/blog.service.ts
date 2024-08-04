@@ -5,6 +5,7 @@ import { Blog } from './entities/blog.entity';
 import { In, Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
 import { AddCategoryDto } from './dto/add-category.dto';
+import { EditBlogDto } from './dto/edit-blog.dto';
 
 @Injectable()
 export class BlogService {
@@ -34,6 +35,27 @@ export class BlogService {
         } catch (error) {
             this.logger.error(error);
             return {code: 0, message: '添加失败'}
+        }
+    }
+
+    async editBlog(info: EditBlogDto) {
+        const blog = await this.blogRepository.findOne({
+            relations: ['categorys'],
+            where: {id: info.id}
+        });
+        blog.title = info.title;
+        blog.content = info.content;
+        blog.categorys = info.categorys?.map(id => {
+            const category = new Category();
+            category.id = id;
+            return category;
+        });
+        try {
+            await this.blogRepository.save(blog);
+            return {code: 1, message: '编辑成功'};
+        } catch (error) {
+            this.logger.error(error);
+            return {code: 0, message: '编辑失败'}
         }
     }
 

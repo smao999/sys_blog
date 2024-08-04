@@ -8,7 +8,7 @@ export class AddBlogDto {
   title: string;
 
   @IsNotEmpty({
-    message: '文章内容不能为空'
+    message: '文章分类不能为空'
   })
   categorys: string[];
 

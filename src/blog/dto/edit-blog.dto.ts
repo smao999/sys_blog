@@ -6,9 +6,9 @@ export class EditBlogDto {
   })
   id:string
 
-  title: string;
+  title?: string;
 
-  categorys: string[];
+  categorys?: string[];
 
-  content: string;
+  content?: string;
 }
